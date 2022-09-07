@@ -18,3 +18,11 @@ jobs:
       - run: npm install -g bootprint-openapi
       - run: bootprint openapi http://petstore.swagger.io/v2/swagger.json target
       - run: ls
+      - name: push docs html
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: docs
+          FOLDER: target
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "Coverage: ({sha}) {msg}"
