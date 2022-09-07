@@ -1,0 +1,23 @@
+openapi: 3.0.0
+servers:
+  - url: https://api.fitnessapp.gang-of-fork.de/
+info:
+  description: 'Fitness App Backend API Documentation'
+  version: '1.0.0'
+  title: 'Fitness App Backend API'
+  contact:
+    email: 'support@gang-of-fork.de'
+paths:
+  /ping:
+    get:
+      summary: 'Check if application is up'
+      responses:
+        200:
+          description: 'Application is up'
+          content:
+            text/plain:
+              example: 'pong'
+
+        
+        
+        
