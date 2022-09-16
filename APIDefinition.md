@@ -56,13 +56,7 @@
 {
   "trainingstagId": "string",
   "date": "Date",
-  "exercises": "Übungseinheit[]",
-}
-```
-
-- Übungseinheit
-```json
-{
+  "exercises": [ {
   "exerciseId": "string",
   "date": "Date", 
   "notes": "string[]",
@@ -73,6 +67,7 @@
     "10RM": "number",
   }],
 }
+
 ```
 
 - Übung
