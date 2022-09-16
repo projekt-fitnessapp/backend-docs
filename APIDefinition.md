@@ -56,16 +56,21 @@
 {
   "trainingstagId": "string",
   "date": "Date",
-  "exercises": [ {
-  "exerciseId": "string",
-  "date": "Date", 
-  "notes": "string[]",
-  "sets": [{
-    "type": "warmup | working | backoff",
-    "weight": "number",
-    "reps": "number",
-    "10RM": "number",
-  }],
+  "exercises": [
+    {
+      "exerciseId": "string",
+      "date": "Date",
+      "notes": "string[]",
+      "sets": [
+        {
+          "type": "warmup | working | backoff",
+          "weight": "number",
+          "reps": "number",
+          "10RM": "number"
+        }
+      ]
+    }
+  ]
 }
 
 ```
