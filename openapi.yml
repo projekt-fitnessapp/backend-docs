@@ -5,11 +5,11 @@ servers:
   - description: Tromega Fitness API
     url: https://api.fitnessapp.gang-of-fork.de/
 info:
-  description: 'Fitness App Backend API Documentation'
-  version: '1.0.0'
-  title: 'Fitness App Backend API'
+  description: "Fitness App Backend API Documentation"
+  version: "1.0.0"
+  title: "Fitness App Backend API"
   contact:
-    email: 'support@gang-of-fork.de'
+    email: "support@gang-of-fork.de"
 tags:
   - name: Exercises
     description: /exercises Endpoint
@@ -17,26 +17,34 @@ tags:
     description: /executions Endpoint
   - name: LastTraining
     description: /lastTraining Endpoint
+  - name: TrainingSession
+    description: /trainingSession Endpoint
   - name: TrainingDay
     description: /trainingDay Endpoint
+  - name: TrainingPlan
+    description: /trainingPlan Endpoint
+  - name: Body
+    description: /body Endpoint
+  - name: Account
+    description: /account Endpoint
 paths:
   /exercises:
     get:
-      tags: 
+      tags:
         - Exercises
       summary: Get exercise List
       responses:
-        '200':
+        "200":
           description: List of Exercises
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Exercise'
+                  $ref: "#/components/schemas/Exercise"
   /executions:
     get:
-      tags: 
+      tags:
         - Executions
       summary: Get execution List
       parameters:
@@ -45,21 +53,20 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
             example: 5099803df3f4948bd2f98548
       responses:
-        '200':
+        "200":
           description: List of executions
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Execution'
-        '400':
+                  $ref: "#/components/schemas/Execution"
+        "400":
           description: bad input parameter
     post:
-      tags: 
+      tags:
         - Executions
       summary: Add new execution
       requestBody:
@@ -67,18 +74,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Execution'
+              $ref: "#/components/schemas/Execution"
       responses:
-        '201':
+        "201":
           description: Added successfully.
-        '401':
+        "401":
           description: Bad request.
   /lastTraining:
     get:
-      tags: 
+      tags:
         - LastTraining
       summary: Get Last Trainingdates
-      parameters: 
+      parameters:
         - in: query
           name: days
           required: true
@@ -87,14 +94,49 @@ paths:
             description: Number of days looking back from today.
             example: 7
       responses:
-        '200':
+        "200":
           description: List of Days when trained
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/LastTrainings'
+                  $ref: "#/components/schemas/LastTrainings"
+        "400":
+          description: bad input parameter
+  /trainingSession:
+    get:
+      tags:
+        - TrainingSession
+      summary: Get Training Session
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            description: my userId
+            example: 5099803df3f494add2f9dja5
+        - in: query
+          name: id
+          required: false
+          schema:
+            type: array
+            description: List of Session IDs to specify selection
+            items:
+              type: string
+            example: [5099803df3f4948bd2f98548, 5099803df3f4948bd2f98545]
+      responses:
+        "200":
+          description: List of Users Trainingsessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrainingSession"
+        "400":
+          description: bad input parameter
   /trainingDay:
     get:
       tags:
@@ -102,20 +144,85 @@ paths:
       summary: Get TrainingDay
       parameters:
         - in: query
-          name: trainingDay
+          name: trainingDayId
           required: true
           schema:
             type: string
-            format: uuid
             example: 5099803df3f4948bd2f9dja5
       responses:
-        '200':
+        "200":
           description: Requested Trainingday
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrainingDay'
-              
+                $ref: "#/components/schemas/TrainingDay"
+        "400":
+          description: bad input parameter
+  /trainingPlan:
+    get:
+      tags:
+        - TrainingPlan
+      summary: Get Trainingplan
+      parameters:
+        - in: query
+          name: trainingPlanId
+          required: true
+          schema:
+            type: string
+            example: 5d99802df3f4948bd2f9dja1
+      responses:
+        "200":
+          description: Requested TrainingPlan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingPlan"
+        "400":
+          description: bad input parameter
+  /body:
+    get:
+      tags:
+        - Body
+      summary: Get BodyData
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f494add2f9dja5
+      responses:
+        "200":
+          description: BodyData list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Body"
+        "400":
+          description: bad input parameter
+  /account:
+    get:
+      tags:
+        - Account
+      summary: Get Account data
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f494add2f9dja5
+      responses:
+        "200":
+          description: Account data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "400":
+          description: bad input parameter
 components:
   schemas:
     Exercise:
@@ -123,7 +230,6 @@ components:
       properties:
         _id:
           type: string
-          format: uuid
           example: 5099803df3f4948bd2f98391
         name:
           type: string
@@ -134,23 +240,22 @@ components:
         gifUrl:
           type: string
           format: url
-          example: 'http://d205bpvrqc9yn1.cloudfront.net/0030.gif'
+          example: "http://d205bpvrqc9yn1.cloudfront.net/0030.gif"
         muscle:
           type: string
           example: breast
         equipment:
           type: string
           example: barbell
-          
+
     Execution:
       type: object
       properties:
-        _id: 
+        _id:
           type: string
-          format: uuid
           example: 5099803df3f4948bd2f98385
         exercise:
-          $ref: '#/components/schemas/Exercise'
+          $ref: "#/components/schemas/Exercise"
         date:
           type: string
           format: date
@@ -195,30 +300,29 @@ components:
     TrainingSession:
       type: object
       properties:
-        _id: 
+        _id:
           type: string
-          format: uuid
           example: 5099803df3f4948bd2f98548
+        userId:
+          type: string
+          example: 5099803df3f494add2f9dja5
         trainingDay:
           type: string
-          format: uuid
           example: 5099803df3f4948bd2f9dja5
         date:
           type: string
-          format: date 
+          format: date
           example: 2016-05-18T16:30:00Z
         executions:
           type: array
           items:
             type: string
-            format: uuid
             example: 5099803df3f4948bd2f98385
     TrainingDay:
       type: object
       properties:
         _id:
           type: string
-          format: uuid
           example: 5099803df3f4948bd2f9dja5
         name:
           type: string
@@ -227,7 +331,7 @@ components:
           type: array
           items:
             type: object
-            properties: 
+            properties:
               exerciseId:
                 type: string
                 example: 5099803df3f4948bd2f98391
@@ -244,7 +348,6 @@ components:
       properties:
         _id:
           type: string
-          format: uuid
           example: 5d99802df3f4948bd2f9dja1
         name:
           type: string
@@ -260,7 +363,6 @@ components:
           maxItems: 10
           items:
             type: string
-            format: uuid
             example: 5099803df3f4948bd2f9dja5
         nextDay:
           type: integer
@@ -270,10 +372,13 @@ components:
     Body:
       type: object
       properties:
-        userId: 
+        userId:
           type: string
-          format: uuid
           example: 5099803df3f494add2f9dja5
+        date:
+          type: string
+          format: date
+          example: 2020-02-22T00:00:00Z
         height:
           type: number
           description: Height in cm.
@@ -287,7 +392,6 @@ components:
       properties:
         _id:
           type: string
-          format: uuid
           example: 5099803df3f494add2f9dja5
         name:
           type: string
@@ -303,5 +407,4 @@ components:
           type: array
           items:
             type: string
-            format: uuid
             example: 5d99802df3f4948bd2f9dja1
