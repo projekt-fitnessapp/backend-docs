@@ -1,23 +1,307 @@
 openapi: 3.0.0
 servers:
-  - url: https://api.fitnessapp.gang-of-fork.de/
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/FLORIANHASE12/GEtit/1.0.0
+  - description: Tromega Fitness API
+    url: https://api.fitnessapp.gang-of-fork.de/
 info:
   description: 'Fitness App Backend API Documentation'
   version: '1.0.0'
   title: 'Fitness App Backend API'
   contact:
     email: 'support@gang-of-fork.de'
+tags:
+  - name: Exercises
+    description: /exercises Endpoint
+  - name: Executions
+    description: /executions Endpoint
+  - name: LastTraining
+    description: /lastTraining Endpoint
+  - name: TrainingDay
+    description: /trainingDay Endpoint
 paths:
-  /ping:
+  /exercises:
     get:
-      summary: 'Check if application is up'
+      tags: 
+        - Exercises
+      summary: Get exercise List
       responses:
-        200:
-          description: 'Application is up'
+        '200':
+          description: List of Exercises
           content:
-            text/plain:
-              example: 'pong'
-
-        
-        
-        
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Exercise'
+  /executions:
+    get:
+      tags: 
+        - Executions
+      summary: Get execution List
+      parameters:
+        - in: query
+          name: trainingSessionId
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 5099803df3f4948bd2f98548
+      responses:
+        '200':
+          description: List of executions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Execution'
+        '400':
+          description: bad input parameter
+    post:
+      tags: 
+        - Executions
+      summary: Add new execution
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Execution'
+      responses:
+        '201':
+          description: Added successfully.
+        '401':
+          description: Bad request.
+  /lastTraining:
+    get:
+      tags: 
+        - LastTraining
+      summary: Get Last Trainingdates
+      parameters: 
+        - in: query
+          name: days
+          required: true
+          schema:
+            type: integer
+            description: Number of days looking back from today.
+            example: 7
+      responses:
+        '200':
+          description: List of Days when trained
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LastTrainings'
+  /trainingDay:
+    get:
+      tags:
+        - TrainingDay
+      summary: Get TrainingDay
+      parameters:
+        - in: query
+          name: trainingDay
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 5099803df3f4948bd2f9dja5
+      responses:
+        '200':
+          description: Requested Trainingday
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingDay'
+              
+components:
+  schemas:
+    Exercise:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          example: 5099803df3f4948bd2f98391
+        name:
+          type: string
+          example: Bench Press
+        instruction:
+          type: string
+          example: Push the bar.
+        gifUrl:
+          type: string
+          format: url
+          example: 'http://d205bpvrqc9yn1.cloudfront.net/0030.gif'
+        muscle:
+          type: string
+          example: breast
+        equipment:
+          type: string
+          example: barbell
+          
+    Execution:
+      type: object
+      properties:
+        _id: 
+          type: string
+          format: uuid
+          example: 5099803df3f4948bd2f98385
+        exercise:
+          $ref: '#/components/schemas/Exercise'
+        date:
+          type: string
+          format: date
+          example: 2016-05-18T16:00:00Z
+        notes:
+          type: array
+          items:
+            type: string
+        sets:
+          type: array
+          items:
+            type: object
+            properties:
+              executionType:
+                type: string
+                enum: [warmup, working, backoff]
+              weight:
+                type: number
+                minimum: 0
+                description: in kg
+              reps:
+                type: number
+                minimum: 0
+              10RM:
+                type: number
+                minimum: 0
+    LastTrainings:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+                example: 2016-05-18T16:00:00Z
+              trained:
+                type: boolean
+                example: false
+    TrainingSession:
+      type: object
+      properties:
+        _id: 
+          type: string
+          format: uuid
+          example: 5099803df3f4948bd2f98548
+        trainingDay:
+          type: string
+          format: uuid
+          example: 5099803df3f4948bd2f9dja5
+        date:
+          type: string
+          format: date 
+          example: 2016-05-18T16:30:00Z
+        executions:
+          type: array
+          items:
+            type: string
+            format: uuid
+            example: 5099803df3f4948bd2f98385
+    TrainingDay:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          example: 5099803df3f4948bd2f9dja5
+        name:
+          type: string
+          example: Push
+        exercises:
+          type: array
+          items:
+            type: object
+            properties: 
+              exerciseId:
+                type: string
+                example: 5099803df3f4948bd2f98391
+              sets:
+                type: number
+                minimum: 1
+                example: 3
+              reps:
+                type: number
+                minimum: 1
+                example: 10
+    TrainingPlan:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          example: 5d99802df3f4948bd2f9dja1
+        name:
+          type: string
+          example: Arnold
+        split:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 6
+        trainingDays:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            type: string
+            format: uuid
+            example: 5099803df3f4948bd2f9dja5
+        nextDay:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 2
+    Body:
+      type: object
+      properties:
+        userId: 
+          type: string
+          format: uuid
+          example: 5099803df3f494add2f9dja5
+        height:
+          type: number
+          description: Height in cm.
+          example: 175
+        weight:
+          type: number
+          description: Weight in kg.
+          example: 65.5
+    Account:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          example: 5099803df3f494add2f9dja5
+        name:
+          type: string
+          example: Markus Ruehl
+        birthdate:
+          type: string
+          format: date
+          example: 1972-02-22T00:00:00Z
+        sex:
+          type: string
+          enum: [male, female]
+        trainingPlans:
+          type: array
+          items:
+            type: string
+            format: uuid
+            example: 5d99802df3f4948bd2f9dja1
