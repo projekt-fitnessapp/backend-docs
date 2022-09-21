@@ -1,23 +1,659 @@
 openapi: 3.0.0
 servers:
-  - url: https://api.fitnessapp.gang-of-fork.de/
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/FLORIANHASE12/GEtit/1.0.0
+  - description: Tromega Fitness API
+    url: https://api.fitnessapp.gang-of-fork.de/
 info:
   description: 'Fitness App Backend API Documentation'
   version: '1.0.0'
   title: 'Fitness App Backend API'
   contact:
     email: 'support@gang-of-fork.de'
+tags:
+  - name: Exercises
+    description: /exercises Endpoint
+  - name: LastTraining
+    description: /lastTraining Endpoint
+  - name: TrainingSession
+    description: /trainingSession Endpoint
+  - name: TrainingDay
+    description: /trainingDay Endpoint
+  - name: TrainingPlan
+    description: /trainingPlan Endpoint
+  - name: Body
+    description: /body Endpoint
+  - name: Account
+    description: /account Endpoint
 paths:
-  /ping:
+  /exercises:
     get:
-      summary: 'Check if application is up'
+      tags: 
+        - Exercises
+      summary: Get exercise List
+      parameters: 
+        - in: query
+          name: muscle
+          required: false
+          schema:
+            type: string
+            enum: [breast] #todo
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+            example: Bench Press
+        - in: query
+          name: equipment
+          required: false
+          schema:
+            type: string
+            enum: [barbell] #todo
       responses:
-        200:
-          description: 'Application is up'
+        '200':
+          description: List of Exercises
           content:
-            text/plain:
-              example: 'pong'
-
-        
-        
-        
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Exercise'
+        '400':
+          description: Bad input parameter
+  /lastTraining:
+    get:
+      tags: 
+        - LastTraining
+      summary: Get Last Trainingdates
+      parameters: 
+        - in: query
+          name: days
+          required: true
+          schema:
+            type: integer
+            description: Number of days looking back from today.
+            example: 7
+      responses:
+        '200':
+          description: List of Days when trained
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LastTrainings'
+        '400':
+          description: bad input parameter
+  /trainingSession:
+    get:
+      tags:
+        - TrainingSession
+      summary: Get Training Session
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            description: my userId
+            example: 5099803df3f494add2f9dja5
+        - in: query
+          name: id
+          required: false
+          schema:
+            type: array
+            description: List of Session IDs to specify selection
+            items:
+              type: string
+            example: [5099803df3f4948bd2f98548, 5099803df3f4948bd2f98545]
+      responses:
+        '200':
+          description: List of Users Trainingsessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingSession'
+        '400':
+          description: bad input parameter
+    post:
+      tags: 
+        - TrainingSession
+      summary: Add new Training session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingSession'
+      responses:
+        '201':
+          description: saved successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: document id
+                example: 5099803df3f4948bd2f98548
+        '400':
+          description: Bad request.
+        '401':
+          description: not authorized
+  /trainingDay:
+    get:
+      tags:
+        - TrainingDay
+      summary: Get TrainingDay
+      parameters:
+        - in: query
+          name: trainingDayId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f4948bd2f9dja5
+      responses:
+        '200':
+          description: Requested Trainingday
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingDay'
+        '400':
+          description: bad input parameter
+    put:
+      tags:
+        - TrainingDay
+      summary: Update TrainingDay
+      parameters:
+        - in: query
+          name: trainingDayId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f4948bd2f9dja5
+      requestBody:
+        description: locally Updated Object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingDay'
+      responses:
+        '201':
+          description: Updated Trainingday
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingDay'
+        '400':
+          description: bad input parameter
+        '401':
+          description: not authorized
+    post:
+      tags:
+        - TrainingDay
+      summary: Save new TrainingDay
+      requestBody:
+        description: locally generated Object
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Push
+                  exercises:
+                    type: array
+                    items:
+                      type: object
+                      properties: 
+                        exerciseId:
+                          type: string
+                          example: 5099803df3f4948bd2f98391
+                        sets:
+                          type: number
+                          minimum: 1
+                          example: 3
+                        reps:
+                          type: number
+                          minimum: 1
+                          example: 10
+      responses:
+        '201':
+          description: saved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                description: trainingDayIds
+                items:
+                  type: string
+                  description: document id
+                  example: 5099803df3f4948bd2f9dja5
+        '401':
+          description: not authorized
+    
+  /trainingPlan:
+    get:
+      tags:
+        - TrainingPlan
+      summary: Get Trainingplan
+      parameters:
+        - in: query
+          name: trainingPlanId
+          required: true
+          schema:
+            type: string
+            example: 5d99802df3f4948bd2f9dja1
+      responses:
+        '200':
+          description: Requested TrainingPlan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingPlan'
+        '400':
+          description: bad input parameter
+    put:
+      tags:
+        - TrainingPlan
+      summary: Update TrainingPlan
+      parameters:
+        - in: query
+          name: trainingPlanId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f4948bd2f9dja5
+      requestBody:
+        description: locally Updated Object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingPlan'
+      responses:
+        '201':
+          description: Updated TrainingPlan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingPlan'
+        '400':
+          description: bad input parameter
+        '401':
+          description: not authorized
+    post:
+      tags:
+        - TrainingPlan
+      summary: Save new TrainingPlan
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+            example: 5099803df3f494add2f9dja5
+      requestBody:
+        description: locally generated Object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Arnold
+                split:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                  example: 6
+                trainingDays:
+                  type: array
+                  minItems: 1
+                  maxItems: 10
+                  items:
+                    type: string
+                    example: 5099803df3f4948bd2f9dja5
+                nextDay:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                  example: 2
+      responses:
+        '201':
+          description: saved successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: document id
+                example: 5d99802df3f4948bd2f9dja1
+        '401':
+          description: not authorized
+  /body:
+    get:
+      tags:
+        - Body
+      summary: Get BodyData
+      parameters: 
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f494add2f9dja5
+      responses:
+        '200':
+          description: BodyData list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Body'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - Body
+      summary: Save new Body data
+      requestBody:
+        description: locally generated object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 5099803df3f494add2f9dja5
+                date:
+                  type: string
+                  format: date
+                  example: 2020-02-22T00:00:00Z
+                height:
+                  type: number
+                  description: Height in cm.
+                  example: 175
+                weight:
+                  type: number
+                  description: Weight in kg.
+                  example: 72.7
+      responses:
+        '201':
+          description: saved successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: document id
+                example: 5099803df3f494ad2ad9dja5
+        '401':
+          description: not authorized
+  /account:
+    get:
+      tags:
+        - Account
+      summary: Get Account data
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f494add2f9dja5
+      responses:
+        '200':
+          description: Account data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: bad input parameter
+    put:
+      tags:
+        - Account
+      summary: Update Account
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f494add2f9dja5
+      requestBody:
+        description: locally Updated Object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '201':
+          description: Updated TrainingPlan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: bad input parameter, only trainingPlans changeable
+        '401':
+          description: not authorized
+    post:
+      tags:
+        - Account
+      summary: Save new Account
+      requestBody:
+        description: locally generated object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Markus Ruehl
+                birthdate:
+                  type: string
+                  format: date
+                  example: 1972-02-22T00:00:00Z
+                sex:
+                  type: string
+                  enum: [male, female]
+                trainingPlans:
+                  type: array
+                  items:
+                    type: string
+                    example: 5d99802df3f4948bd2f9dja1
+      responses:
+        '201':
+          description: saved successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: userId
+                example: 5099803df3f494add2f9dja5
+        '401':
+          description: not authorized          
+components:
+  schemas:
+    Exercise:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5099803df3f4948bd2f98391
+        name:
+          type: string
+          example: Bench Press
+        instruction:
+          type: string
+          example: Push the bar.
+        gifUrl:
+          type: string
+          format: url
+          example: 'http://d205bpvrqc9yn1.cloudfront.net/0030.gif'
+        muscle:
+          type: string
+          example: breast
+        equipment:
+          type: string
+          example: barbell
+    Execution:
+      type: object
+      properties:
+        exercise:
+          $ref: '#/components/schemas/Exercise'
+        notes:
+          type: array
+          items:
+            type: string
+        sets:
+          type: array
+          items:
+            type: object
+            properties:
+              executionType:
+                type: string
+                enum: [warmup, working, backoff]
+              weight:
+                type: number
+                minimum: 0
+                description: in kg
+              reps:
+                type: number
+                minimum: 0
+              10RM:
+                type: number
+                minimum: 0
+    LastTrainings:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+                example: 2016-05-18T16:00:00Z
+              trained:
+                type: boolean
+                example: false
+    TrainingSession:
+      type: object
+      properties:
+        _id: 
+          type: string
+          example: 5099803df3f4948bd2f98548
+        userId:
+          type: string
+          example: 5099803df3f494add2f9dja5
+        trainingDayId:
+          type: string
+          example: 5099803df3f4948bd2f9dja5
+        date:
+          type: string
+          format: date 
+          example: 2016-05-18T16:30:00Z
+        executions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Execution'
+    TrainingDay:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5099803df3f4948bd2f9dja5
+        name:
+          type: string
+          example: Push
+        exercises:
+          type: array
+          items:
+            type: object
+            properties: 
+              exerciseId:
+                type: string
+                example: 5099803df3f4948bd2f98391
+              sets:
+                type: number
+                minimum: 1
+                example: 3
+              reps:
+                type: number
+                minimum: 1
+                example: 10
+    TrainingPlan:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5d99802df3f4948bd2f9dja1
+        name:
+          type: string
+          example: Arnold
+        split:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 6
+        trainingDays:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            type: string
+            example: 5099803df3f4948bd2f9dja5
+        nextDay:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 2
+    Body:
+      type: object
+      properties:
+        _id: 
+          type: string
+          example: 5099803df3f494ad2ad9dja5
+        userId: 
+          type: string
+          example: 5099803df3f494add2f9dja5
+        date:
+          type: string
+          format: date
+          example: 2020-02-22T00:00:00Z
+        height:
+          type: number
+          description: Height in cm.
+          example: 175
+        weight:
+          type: number
+          description: Weight in kg.
+          example: 65.5
+    Account:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5099803df3f494add2f9dja5
+        name:
+          type: string
+          example: Markus Ruehl
+        birthdate:
+          type: string
+          format: date
+          example: 1972-02-22T00:00:00Z
+        sex:
+          type: string
+          enum: [male, female]
+        trainingPlans:
+          type: array
+          items:
+            type: string
+            example: 5d99802df3f4948bd2f9dja1
