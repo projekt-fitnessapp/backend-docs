@@ -82,7 +82,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/LastTrainings'
+                  $ref: '#/components/schemas/LastTraining'
         '400':
           description: bad input parameter
   /trainingSession:
@@ -529,21 +529,16 @@ components:
               10RM:
                 type: number
                 minimum: 0
-    LastTrainings:
+    LastTraining:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              date:
-                type: string
-                format: date
-                example: 2016-05-18T16:00:00Z
-              trained:
-                type: boolean
-                example: false
+        date:
+          type: string
+          format: date
+          example: 2016-05-18T16:00:00Z
+        trained:
+          type: boolean
+          example: false
     TrainingSession:
       type: object
       properties:
