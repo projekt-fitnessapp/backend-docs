@@ -458,7 +458,7 @@ paths:
                 birthdate:
                   type: string
                   format: date
-                  example: 1972-02-22T00:00:00Z
+                  example: "1972-02-22T00:00:00Z"
                 sex:
                   type: string
                   enum: [male, female]
@@ -637,6 +637,9 @@ components:
         _id:
           type: string
           example: 5099803df3f494add2f9dja5
+        google_id:
+          type: string
+          example: 110169484474386276334
         name:
           type: string
           example: Markus Ruehl
