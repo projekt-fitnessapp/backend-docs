@@ -11,6 +11,8 @@ info:
   contact:
     email: 'support@gang-of-fork.de'
 tags:
+  - name: Monitoring
+    description: monitoring information
   - name: Exercises
     description: /exercises Endpoint
   - name: LastTraining
@@ -26,6 +28,14 @@ tags:
   - name: Account
     description: /account Endpoint
 paths:
+  /ping:
+    get:
+      tags:
+        - Monitoring
+      summary: Get response if up
+      responses:
+        '200':
+          description: ok
   /exercises:
     get:
       tags: 
