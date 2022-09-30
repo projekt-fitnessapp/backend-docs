@@ -36,6 +36,14 @@ paths:
       responses:
         '200':
           description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: pong
   /exercises:
     get:
       tags: 
