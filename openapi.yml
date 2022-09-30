@@ -11,6 +11,8 @@ info:
   contact:
     email: 'support@gang-of-fork.de'
 tags:
+  - name: Monitoring
+    description: monitoring information
   - name: Exercises
     description: /exercises Endpoint
   - name: LastTraining
@@ -26,6 +28,22 @@ tags:
   - name: Account
     description: /account Endpoint
 paths:
+  /ping:
+    get:
+      tags:
+        - Monitoring
+      summary: Get response if up
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: pong
   /exercises:
     get:
       tags: 
@@ -372,7 +390,7 @@ paths:
                 date:
                   type: string
                   format: date
-                  example: 2020-02-22T00:00:00Z
+                  example: "2020-02-22T00:00:00Z"
                 height:
                   type: number
                   description: Height in cm.
@@ -535,7 +553,7 @@ components:
         date:
           type: string
           format: date
-          example: 2016-05-18T16:00:00Z
+          example: "2016-05-18T16:00:00Z"
         trained:
           type: boolean
           example: false
@@ -554,7 +572,7 @@ components:
         date:
           type: string
           format: date 
-          example: 2016-05-18T16:30:00Z
+          example: "2016-05-18T16:30:00Z"
         executions:
           type: array
           items:
@@ -622,7 +640,7 @@ components:
         date:
           type: string
           format: date
-          example: 2020-02-22T00:00:00Z
+          example: "2020-02-22T00:00:00Z"
         height:
           type: number
           description: Height in cm.
@@ -646,7 +664,7 @@ components:
         birthdate:
           type: string
           format: date
-          example: 1972-02-22T00:00:00Z
+          example: "1972-02-22T00:00:00Z"
         sex:
           type: string
           enum: [male, female]
