@@ -431,6 +431,8 @@ paths:
                 $ref: '#/components/schemas/Account'
         '400':
           description: bad input parameter
+        '404':
+          description: no Account found
     put:
       tags:
         - Account
@@ -450,13 +452,13 @@ paths:
               $ref: '#/components/schemas/Account'
       responses:
         '201':
-          description: Updated TrainingPlan
+          description: Updated Account
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Account'
         '400':
-          description: bad input parameter, only trainingPlans changeable
+          description: bad input parameter, only Accounts changeable
         '401':
           description: not authorized
     post:
