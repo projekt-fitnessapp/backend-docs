@@ -86,6 +86,12 @@ paths:
       summary: Get Last Trainingdates
       parameters: 
         - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            description: User ID
+        - in: query
           name: days
           required: true
           schema:
