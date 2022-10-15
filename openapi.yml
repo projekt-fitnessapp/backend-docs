@@ -354,6 +354,8 @@ paths:
                 type: string
                 description: document id
                 example: 5d99802df3f4948bd2f9dja1
+        '400':
+          description: bad input parameter
         '401':
           description: not authorized
   /body:
