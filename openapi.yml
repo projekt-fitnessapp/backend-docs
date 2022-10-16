@@ -358,6 +358,33 @@ paths:
           description: bad input parameter
         '401':
           description: not authorized
+
+  /myPlans:
+    get:
+      tags: 
+        - MyPlans
+      summary: Get all TrainingPlans of a certain user
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: 5099803df3f494add2f9dja5
+      responses:
+        '200':
+          description: Users TrainingPlans list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingPlan'
+        '400':
+          description: bad input parameter
+        '404':
+          description: not found
+
   /body:
     get:
       tags:
