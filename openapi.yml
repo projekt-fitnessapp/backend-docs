@@ -1058,8 +1058,6 @@ paths:
           required: true
           schema:
             type: string
-            description: my userId
-            example: 5099803df3f494add2f9dja5
         - in: query
           name: id
           required: false
@@ -1068,18 +1066,77 @@ paths:
             description: List of Session IDs to specify selection
             items:
               type: string
-            example: [5099803df3f4948bd2f98548, 5099803df3f4948bd2f98545]
       responses:
         '200':
-          description: List of Users Trainingsessions
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TrainingSession'
+                  type: object
+                  properties:
+                    _id: 
+                      type: string
+                    userId: 
+                      type: string
+                    trainingDayId: 
+                      type: string 
+                    date: 
+                      type: string
+                      format: date
+                    executions: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                          exercise:
+                            type: object
+                            properties:
+                              _id: 
+                                type: string 
+                              name: 
+                                type: string
+                              instruction: 
+                                type: string
+                              gifUrl: 
+                                type: string
+                                format: uri
+                              muscle: 
+                                type: string
+                              equipment: 
+                                type: string                        
+                              __v:
+                                type: number
+                          notes: 
+                            type: array
+                            items:
+                              type: string
+                          sets: 
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _id: 
+                                  type: string
+                                executionType: 
+                                  type: string
+                                weight:
+                                  type: number
+                                reps: 
+                                  type: number
+                                tenRM: 
+                                  type: number
+                          __v: 
+                            type: number
+                    __v:
+                      type: number
         '400':
-          description: bad input parameter
+          description: Bad Request
+        '404':
+          description: Not Found
     post:
       tags: 
         - TrainingSession
@@ -1087,22 +1144,66 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TrainingSession'
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId: 
+                      type: string
+                    trainingDayId: 
+                      type: string 
+                    date: 
+                      type: string
+                      format: date
+                    executions: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          exercise:
+                            type: object
+                            properties:
+                              _id:
+                                type: string
+                              name: 
+                                type: string
+                              instruction: 
+                                type: string
+                              gifUrl: 
+                                type: string
+                                format: uri
+                              muscle: 
+                                type: string
+                              equipment: 
+                                type: string
+                          notes: 
+                            type: array
+                            items:
+                              type: string
+                          sets: 
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                executionType: 
+                                  type: string
+                                weight:
+                                  type: number
+                                reps: 
+                                  type: number
+                                tenRM: 
+                                  type: number
       responses:
         '201':
-          description: saved successfully
+          description: OK
           content:
             application/json:
               schema:
                 type: string
-                description: document id
-                example: 5099803df3f4948bd2f98548
         '400':
-          description: Bad request.
-        '401':
-          description: not authorized
+          description: Bad Request
 
             
 components:
