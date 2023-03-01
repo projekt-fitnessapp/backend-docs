@@ -50,6 +50,44 @@ paths:
                   msg:
                     type: string
                     example: pong
+                    
+  /generatedTrainingsplan:
+    post:
+      tags:
+        - Generated Trainingsplan
+      summary: Generate new Trainingsplan for specific user
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                numberOfTraininssession:
+                  type: integer
+                trainingsStatus:
+                  type: string
+                  enum:
+                    - untrained
+                    - trained
+                trainingsType:
+                  type: string
+                  enum:
+                    - withMachines
+                    - withoutMachines
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: string
+                description: UserID/_id
+        '400':
+          description: Bad Request
+   
   /account:
     get:
       tags:
