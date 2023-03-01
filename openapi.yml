@@ -15,6 +15,8 @@ tags:
     description: monitoring information
   - name: Account
     description: /account Endpoint
+  - name: generatedTraingsplan
+    description: /generetedTraingsplan Endpoint
   - name: Body
     description: /body Endpoint
   - name: Exercises
