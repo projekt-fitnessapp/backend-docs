@@ -301,7 +301,7 @@ paths:
           required: true
           schema:
             type: string
-       - in: query
+        - in: query
           name: exercise_name
           required: true
           schema:
