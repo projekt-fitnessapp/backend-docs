@@ -290,7 +290,7 @@ paths:
                 description: bodyId/_id
         '401':
           description: Not Authorized
-   /benchmarking:
+  /benchmarking:
     get:
       tags:
         - Benchmarking
