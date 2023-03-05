@@ -321,7 +321,7 @@ paths:
                     userId:
                       type: string
                     date:
-                      type: Date
+                      type: number
                     exercise_amount:
                       type: number
                     exercise_name:
@@ -356,7 +356,6 @@ paths:
           description: OK
         '401':
           description: Not Authorized
-    
   /exercises:
     get:
       tags: 
