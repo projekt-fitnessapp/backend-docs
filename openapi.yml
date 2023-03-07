@@ -1247,6 +1247,13 @@ paths:
       tags: 
         - TrainingSession
       summary: Add new Training session
+      parameters:
+        - in: query
+          name: trainingPlanId
+          required: false
+          schema:
+            type: string
+            example: 5d99802df3f4948bd2f9daa1
       requestBody:
         required: true
         content:
@@ -1304,6 +1311,12 @@ paths:
       responses:
         '201':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '202':
+          description: created, but nextDay not updated
           content:
             application/json:
               schema:
