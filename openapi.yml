@@ -3,13 +3,13 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/FLORIANHASE12/GEtit/1.0.0
   - description: Tromega Fitness API
-    url: https://api.fitnessapp.gang-of-fork.de/
+    url: https://api.fitnessapp.gang-of-fork.de
 info:
-  description: "Fitness App Backend API Documentation"
-  version: "1.0.0"
-  title: "Fitness App Backend API"
+  description: 'Fitness App Backend API Documentation'
+  version: '1.0.0'
+  title: 'Fitness App Backend API'
   contact:
-    email: "support@gang-of-fork.de"
+    email: 'support@gang-of-fork.de'
 tags:
   - name: Monitoring
     description: monitoring information
@@ -39,14 +39,17 @@ tags:
     description: /trainingPlan Endpoint
   - name: TrainingSession
     description: /trainingSession Endpoint
+  - name: Generated Trainingsplan
+    description: /generatedTrainingsplan
 paths:
   /ping:
     get:
+      operationId: getping
       tags:
         - Monitoring
-      summary: Get response if up
+      description: Get response if up
       responses:
-        "200":
+        '200':
           description: ok
           content:
             application/json:
@@ -56,12 +59,13 @@ paths:
                   msg:
                     type: string
                     example: pong
-
+                    
   /generatedTrainingsplan:
     post:
+      operationId: postGeneratedTrainingplan
       tags:
-        - Generated Trainingsplan
-      summary: Generate new Trainingsplan for specific user
+        - generatedTraingsplan
+      description: Generate new Trainingsplan for specific user
       parameters: []
       requestBody:
         content:
@@ -84,38 +88,39 @@ paths:
                     - withMachines
                     - withoutMachines
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
-              schema:
+              schema: 
                 type: string
                 description: UserID/_id
-        "400":
+        '400':
           description: Bad Request
-
+   
   /account:
     get:
+      operationId: getAccount
       tags:
         - Account
-      summary: Get Account data
-      parameters:
+      description: Get Account data
+      parameters: 
         - in: query
-          name: googleId
+          name: googleId 
           required: true
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
-              schema:
+              schema: 
                 type: object
                 properties:
-                  _id:
+                  _id: 
                     type: string
-                  google_id:
+                  google_id: 
                     type: string
                   name:
                     type: string
@@ -131,14 +136,15 @@ paths:
                     type: array
                     items:
                       type: string
-        "400":
+        '400': 
           description: Bad Request/googleId is missing
-        "404":
+        '404':
           description: Not found
     post:
+      operationId: postAccount
       tags:
         - Account
-      summary: Insert a new Account
+      description: Insert a new Account
       parameters: []
       requestBody:
         content:
@@ -146,7 +152,7 @@ paths:
             schema:
               type: object
               properties:
-                google_id:
+                google_id: 
                   type: string
                 name:
                   type: string
@@ -164,29 +170,30 @@ paths:
                   items:
                     type: string
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
-              schema:
+              schema: 
                 type: string
                 description: UserID/_id
-        "400":
+        '400':
           description: Bad Request
     put:
+      operationId: putAccount
       tags:
         - Account
-      summary: Update Account data
+      description: Update Account data
       parameters: []
       requestBody:
         content:
           application/json:
-            schema:
+            schema: 
               type: object
               properties:
-                _id:
+                _id: 
                   type: string
-                google_id:
+                google_id: 
                   type: string
                 name:
                   type: string
@@ -203,17 +210,17 @@ paths:
                   items:
                     type: string
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
-              schema:
+              schema: 
                 type: object
                 description: Updated Account
                 properties:
-                  _id:
+                  _id: 
                     type: string
-                  google_id:
+                  google_id: 
                     type: string
                   name:
                     type: string
@@ -229,34 +236,32 @@ paths:
                     type: array
                     items:
                       type: string
-        "400":
+        '400':
           description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: string
+
   /body:
     get:
+      operationId: getBody
       tags:
         - Body
-      summary: Get Body data
-      parameters:
+      description: Get Body data
+      parameters: 
         - in: query
           name: userId
           required: true
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
-              schema:
+              schema: 
                 type: array
-                items:
+                items: 
                   type: object
                   properties:
-                    _id:
+                    _id:  
                       type: string
                     userId:
                       type: string
@@ -264,12 +269,13 @@ paths:
                       type: number
                     weight:
                       type: number
-        "400":
+        '400':
           description: Bad Request
     post:
+      operationId: postBody
       tags:
         - Body
-      summary: Insert new Body data
+      description: Insert new Body data
       parameters: []
       requestBody:
         content:
@@ -277,7 +283,7 @@ paths:
             schema:
               type: object
               properties:
-                _id:
+                _id:  
                   type: string
                 userId:
                   type: string
@@ -286,21 +292,22 @@ paths:
                 weight:
                   type: number
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
-              schema:
+              schema: 
                 type: string
                 description: bodyId/_id
-        "401":
+        '401':
           description: Not Authorized
   /benchmarking:
     get:
+      operationId: getBenchmarking
       tags:
         - Benchmarking
-      summary: Get Benchmarking data
-      parameters:
+      description: Get Benchmarking data
+      parameters: 
         - in: query
           name: userId
           required: true
@@ -312,16 +319,16 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
-              schema:
+              schema: 
                 type: array
-                items:
+                items: 
                   type: object
                   properties:
-                    _id:
+                    _id:  
                       type: string
                     userId:
                       type: string
@@ -333,12 +340,13 @@ paths:
                       type: string
                     week_counter:
                       type: number
-        "400":
+        '400':
           description: Bad Request
     post:
+      operationId: postBenchmarking
       tags:
         - Benchmarking
-      summary: Insert new Benchmarking data
+      description: Insert new Benchmarking data
       parameters: []
       requestBody:
         content:
@@ -346,7 +354,7 @@ paths:
             schema:
               type: object
               properties:
-                _id:
+                _id:  
                   type: string
                 userId:
                   type: string
@@ -355,18 +363,19 @@ paths:
                 exercise_name:
                   type: string
                 week_counter:
-                  type: number
+                  type: number                  
       responses:
-        "201":
+        '201':
           description: OK
-        "401":
+        '401':
           description: Not Authorized
   /exercises:
     get:
-      tags:
+      operationId: getExercises
+      tags: 
         - Exercises
-      summary: Get Exercise data
-      parameters:
+      description: Get Exercise data
+      parameters: 
         - in: query
           name: name
           required: false
@@ -383,39 +392,15 @@ paths:
           required: false
           schema:
             type: string
-            enum:
-              [
-                body weight,
-                barbell,
-                cable,
-                assisted,
-                rope,
-                leverage machine,
-                dumbbell,
-                stability ball,
-                ez barbell,
-                sled machine,
-                upper body ergometer,
-                kettlebell,
-                medicine ball,
-                olympic barbell,
-                bosu ball,
-                resistance band,
-                roller,
-                wheel roller,
-                smith machine,
-                tire,
-                elliptical machine,
-                weighted,
-              ]
+            enum: [body weight, barbell, cable, assisted, rope, leverage machine, dumbbell, stability ball, ez barbell, sled machine, upper body ergometer, kettlebell, medicine ball, olympic barbell, bosu ball, resistance band, roller, wheel roller, smith machine, tire, elliptical machine, weighted]
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
-                items:
+                items: 
                   type: object
                   properties:
                     _id:
@@ -428,19 +413,20 @@ paths:
                       type: string
                     gifUrl:
                       type: string
-                      format: uri
+                      format: uri 
                     instruction:
                       type: string
-        "500":
+        '500':
           description: Internal Server Error
   /lastTraining:
     get:
-      tags:
+      operationId: getLastTraining
+      tags: 
         - LastTraining
-      summary: Get Last Trainingdates
-      parameters:
+      description: Get Last Trainingdates
+      parameters: 
         - in: query
-          name: days
+          name: days 
           required: true
           schema:
             type: number
@@ -448,10 +434,10 @@ paths:
         - in: query
           name: userId
           required: true
-          schema:
+          schema: 
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -464,14 +450,15 @@ paths:
                       type: string
                     trained:
                       type: boolean
-        "400":
+        '400':
           description: Bad Request
   /lastTrainingSession:
     get:
+      operationId: getLastTrainingSession
       tags:
-        - LastTrainingSession
-      summary: get LastTrainingSession
-      parameters:
+       - LastTrainingSession
+      description: get LastTrainingSession
+      parameters: 
         - in: query
           name: userId
           required: true
@@ -480,10 +467,10 @@ paths:
         - in: query
           name: trainingDayId
           required: true
-          schema:
+          schema:   
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -517,12 +504,12 @@ paths:
                               type: string
                             gifUrl:
                               type: string
-                              format: uri
+                              format: uri 
                             muscle:
                               type: string
                             equipment:
                               type: string
-                            __v:
+                            __v: 
                               type: number
                         notes:
                           type: array
@@ -530,12 +517,12 @@ paths:
                             type: string
                         sets:
                           type: array
-                          items:
+                          items: 
                             type: object
                             properties:
                               _id:
                                 type: string
-                              executionType:
+                              executionType: 
                                 type: string
                                 enum: [working, warmup, backoff]
                               weight:
@@ -549,24 +536,25 @@ paths:
                   __v:
                     type: number
 
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  msg:
+                  msg: 
                     type: string
-        "404":
+        '404': 
           description: Not Found
-        "500":
+        '500':
           description: Internal Server Error
   /myPlans:
     get:
+      operationId: getMyPlans
       tags:
         - MyPlans
-      summary: Get all Trainingplans of an user.
+      description: Get all Trainingplans of an user.
       parameters:
         - in: query
           name: userId
@@ -574,16 +562,16 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
-              schema:
-                type: array
-                items:
+              schema: 
+                type: array 
+                items: 
                   type: object
                   properties:
-                    _id:
+                    _id: 
                       type: string
                     name:
                       type: string
@@ -594,12 +582,12 @@ paths:
                       items:
                         type: object
                         properties:
-                          _id:
+                          _id: 
                             type: string
                           exerciseId:
                             type: object
                             properties:
-                              _id:
+                              _id: 
                                 type: string
                               name:
                                 type: string
@@ -622,17 +610,18 @@ paths:
                       type: number
                     __v:
                       type: number
-        "400":
+        '400':
           description: Bad Request
-        "404":
+        '404':
           description: Not Found
-        "500":
+        '500':
           description: Internal Server Error
-  /active:
+  /myPlans/active:
     get:
+      operationId: getActivePlan
       tags:
         - Active
-      summary: Get my active Trainingplan
+      description: Get my active Trainingplan
       parameters:
         - in: query
           name: userId
@@ -705,9 +694,10 @@ paths:
                   msg:
                     type: string
     put:
+      operationId: putActivePlan
       tags:
         - Active
-      summary: Set a plan to active
+      description: Set a plan to active
       parameters:
         - in: query
           name: userId
@@ -758,17 +748,18 @@ paths:
                     type: string
   /nextTraining:
     get:
+      operationId: getNextTraining
       tags:
         - NextTraining
-      summary: Get next Training
-      parameters:
+      description: Get next Training
+      parameters: 
         - in: query
           name: userId
           required: true
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -781,19 +772,19 @@ paths:
                     type: string
                   exercises:
                     type: array
-                    items:
+                    items: 
                       type: object
                       properties:
-                        _id:
+                        _id: 
                           type: string
                         name:
                           type: string
                         exerciseId:
                           type: object
                           properties:
-                            _id:
+                            _id: 
                               type: string
-                            name:
+                            name: 
                               type: string
                             instruction:
                               type: string
@@ -812,28 +803,29 @@ paths:
                           type: number
                   __v:
                     type: number
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  msg:
+                  msg: 
                     type: string
   /trainingDay:
     get:
+      operationId: getTrainingDay
       tags:
         - TrainingDay
-      summary: get specific TrainingDay
-      parameters:
+      description: get specific TrainingDay
+      parameters: 
         - in: query
           name: trainingDayId
           required: true
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -867,7 +859,7 @@ paths:
                               type: string
                             equipment:
                               type: string
-                            __v:
+                            __v: 
                               type: number
                         sets:
                           type: number
@@ -875,7 +867,7 @@ paths:
                           type: number
                   __v:
                     type: number
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -885,8 +877,8 @@ paths:
                   msg:
                     type: string
                     example: trainingDayId is missing!
-        "404":
-          description: Not Found
+        '404':
+          description: Not Found 
           content:
             application/json:
               schema:
@@ -898,8 +890,8 @@ paths:
     put:
       tags:
         - TrainingDay
-      summary: Update TrainingDay
-      parameters:
+      description: Update TrainingDay
+      parameters: 
         - in: query
           name: _id
           required: true
@@ -939,7 +931,7 @@ paths:
                             type: string
                           equipment:
                             type: string
-                          __v:
+                          __v: 
                             type: number
                       sets:
                         type: number
@@ -948,7 +940,7 @@ paths:
                 __v:
                   type: number
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
@@ -983,7 +975,7 @@ paths:
                               type: string
                             equipment:
                               type: string
-                            __v:
+                            __v: 
                               type: number
                         sets:
                           type: number
@@ -991,7 +983,7 @@ paths:
                           type: number
                   __v:
                     type: number
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -1000,60 +992,62 @@ paths:
     post:
       tags:
         - TrainingDay
-      summary: Save new TrainingDay
+      description: Save new TrainingDay
       requestBody:
         description: locally generated Object
         content:
-          application/json:
-            schema:
-              type: object
-              description: updated object
-              properties:
-                name:
-                  type: string
-                exercises:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      exerciseId:
-                        type: object
-                        properties:
-                          _id:
-                            type: string
-                          name:
-                            type: string
-                          instruction:
-                            type: string
-                          gifUrl:
-                            type: string
-                            format: uri
-                          muscle:
-                            type: string
-                          equipment:
-                            type: string
-                          __v:
-                            type: number
-                      sets:
-                        type: number
-                      reps:
-                        type: number
+            application/json:
+              schema:
+                type: object
+                description: updated object
+                properties:
+                  name:
+                    type: string
+                  exercises:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        exerciseId:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                            name:
+                              type: string
+                            instruction:
+                              type: string
+                            gifUrl:
+                              type: string
+                              format: uri
+                            muscle:
+                              type: string
+                            equipment:
+                              type: string
+                            __v: 
+                              type: number
+                        sets:
+                          type: number
+                        reps:
+                          type: number
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
               schema:
                 type: string
                 example: 5099803df3f4948bd2f9dja5
-        "401":
+        '401':
           description: Not Authorized
 
+    
   /trainingPlan:
     get:
+      operationId: getTrainingPlan
       tags:
         - TrainingPlan
-      summary: Get Trainingplan
+      description: Get Trainingplan
       parameters:
         - in: query
           name: trainingPlanId
@@ -1061,7 +1055,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -1088,10 +1082,10 @@ paths:
                           items:
                             type: object
                             properties:
-                              _id:
+                              _id: 
                                 type: string
                               exerciseId:
-                                type: object
+                                type: object 
                                 properties:
                                   _id:
                                     type: string
@@ -1103,7 +1097,7 @@ paths:
                                     type: string
                                   gifUrl:
                                     type: string
-                                    format: uri
+                                    format: uri 
                                   instruction:
                                     type: string
                               reps:
@@ -1114,14 +1108,15 @@ paths:
                           type: number
                   nextDay:
                     type: number
-                  __v:
+                  __v: 
                     type: number
-        "400":
+        '400':
           description: No trainingPlanId provided
     put:
+      operationId: putTrainingPlan
       tags:
         - TrainingPlan
-      summary: Update TrainingPlan
+      description: Update TrainingPlan
       parameters:
         - in: query
           name: trainingPlanId
@@ -1155,10 +1150,10 @@ paths:
                         items:
                           type: object
                           properties:
-                            _id:
+                            _id: 
                               type: string
                             exerciseId:
-                              type: object
+                              type: object 
                               properties:
                                 _id:
                                   type: string
@@ -1170,7 +1165,7 @@ paths:
                                   type: string
                                 gifUrl:
                                   type: string
-                                  format: uri
+                                  format: uri 
                                 instruction:
                                   type: string
                             reps:
@@ -1181,10 +1176,10 @@ paths:
                         type: number
                 nextDay:
                   type: number
-                __v:
+                __v: 
                   type: number
       responses:
-        "201":
+        '201':
           description: Updated TrainingPlan
           content:
             application/json:
@@ -1211,10 +1206,10 @@ paths:
                           items:
                             type: object
                             properties:
-                              _id:
+                              _id: 
                                 type: string
                               exerciseId:
-                                type: object
+                                type: object 
                                 properties:
                                   _id:
                                     type: string
@@ -1226,7 +1221,7 @@ paths:
                                     type: string
                                   gifUrl:
                                     type: string
-                                    format: uri
+                                    format: uri 
                                   instruction:
                                     type: string
                               reps:
@@ -1237,14 +1232,15 @@ paths:
                           type: number
                   nextDay:
                     type: number
-                  __v:
+                  __v: 
                     type: number
-        "400":
+        '400':
           description: No trainingPlanId provided
     post:
+      operationId: postTrainingPlan
       tags:
         - TrainingPlan
-      summary: Save new TrainingPlan
+      description: Save new TrainingPlan
       parameters:
         - in: query
           name: userId
@@ -1276,7 +1272,7 @@ paths:
                           type: object
                           properties:
                             exerciseId:
-                              type: object
+                              type: object 
                               properties:
                                 _id:
                                   type: string
@@ -1288,7 +1284,7 @@ paths:
                                   type: string
                                 gifUrl:
                                   type: string
-                                  format: uri
+                                  format: uri 
                                 instruction:
                                   type: string
                             reps:
@@ -1298,7 +1294,7 @@ paths:
                 nextDay:
                   type: number
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
@@ -1306,14 +1302,15 @@ paths:
                 type: string
                 description: document id
                 example: 5d99802df3f4948bd2f9dja1
-        "400":
+        '400':
           description: Bad Request
           #! stopped here
   /trainingSession:
     get:
+      operationId: getTrainingSession
       tags:
         - TrainingSession
-      summary: Get Training Session
+      description: Get Training Session
       parameters:
         - in: query
           name: userId
@@ -1329,7 +1326,7 @@ paths:
             items:
               type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -1338,16 +1335,16 @@ paths:
                 items:
                   type: object
                   properties:
-                    _id:
+                    _id: 
                       type: string
-                    userId:
+                    userId: 
                       type: string
-                    trainingDayId:
-                      type: string
-                    date:
+                    trainingDayId: 
+                      type: string 
+                    date: 
                       type: string
                       format: date
-                    executions:
+                    executions: 
                       type: array
                       items:
                         type: object
@@ -1357,129 +1354,117 @@ paths:
                           exercise:
                             type: object
                             properties:
-                              _id:
+                              _id: 
+                                type: string 
+                              name: 
                                 type: string
-                              name:
+                              instruction: 
                                 type: string
-                              instruction:
-                                type: string
-                              gifUrl:
+                              gifUrl: 
                                 type: string
                                 format: uri
-                              muscle:
+                              muscle: 
                                 type: string
-                              equipment:
-                                type: string
+                              equipment: 
+                                type: string                        
                               __v:
                                 type: number
-                          notes:
+                          notes: 
                             type: array
                             items:
                               type: string
-                          sets:
+                          sets: 
                             type: array
                             items:
                               type: object
                               properties:
-                                _id:
+                                _id: 
                                   type: string
-                                executionType:
+                                executionType: 
                                   type: string
                                 weight:
                                   type: number
-                                reps:
+                                reps: 
                                   type: number
-                                tenRM:
+                                tenRM: 
                                   type: number
-                          __v:
+                          __v: 
                             type: number
                     __v:
                       type: number
-        "400":
+        '400':
           description: Bad Request
-        "404":
+        '404':
           description: Not Found
     post:
-      tags:
+      tags: 
         - TrainingSession
-      summary: Add new Training session
-      parameters:
-        - in: query
-          name: trainingPlanId
-          required: false
-          schema:
-            type: string
-            example: 5d99802df3f4948bd2f9daa1
+      description: Add new Training session
       requestBody:
         required: true
         content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  userId:
-                    type: string
-                  trainingDayId:
-                    type: string
-                  date:
-                    type: string
-                    format: date
-                  executions:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        exercise:
-                          type: object
-                          properties:
-                            _id:
-                              type: string
-                            name:
-                              type: string
-                            instruction:
-                              type: string
-                            gifUrl:
-                              type: string
-                              format: uri
-                            muscle:
-                              type: string
-                            equipment:
-                              type: string
-                        notes:
-                          type: array
-                          items:
-                            type: string
-                        sets:
-                          type: array
-                          items:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId: 
+                      type: string
+                    trainingDayId: 
+                      type: string 
+                    date: 
+                      type: string
+                      format: date
+                    executions: 
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          exercise:
                             type: object
                             properties:
-                              executionType:
+                              _id:
                                 type: string
-                              weight:
-                                type: number
-                              reps:
-                                type: number
-                              tenRM:
-                                type: number
+                              name: 
+                                type: string
+                              instruction: 
+                                type: string
+                              gifUrl: 
+                                type: string
+                                format: uri
+                              muscle: 
+                                type: string
+                              equipment: 
+                                type: string
+                          notes: 
+                            type: array
+                            items:
+                              type: string
+                          sets: 
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                executionType: 
+                                  type: string
+                                weight:
+                                  type: number
+                                reps: 
+                                  type: number
+                                tenRM: 
+                                  type: number
       responses:
-        "201":
+        '201':
           description: OK
           content:
             application/json:
               schema:
                 type: string
-        "202":
-          description: created, but nextDay not updated
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
+        '400':
           description: Bad Request
 
+            
 components:
   schemas:
     Exercise:
@@ -1497,7 +1482,7 @@ components:
         gifUrl:
           type: string
           format: url
-          example: "http://d205bpvrqc9yn1.cloudfront.net/0030.gif"
+          example: 'http://d205bpvrqc9yn1.cloudfront.net/0030.gif'
         muscle:
           type: string
           example: breast
@@ -1508,7 +1493,7 @@ components:
       type: object
       properties:
         exercise:
-          $ref: "#/components/schemas/Exercise"
+          $ref: '#/components/schemas/Exercise'
         notes:
           type: array
           items:
@@ -1536,7 +1521,7 @@ components:
       properties:
         date:
           type: string
-          format: date
+          format: date-time
           example: "2016-05-18T16:00:00Z"
         trained:
           type: boolean
@@ -1544,7 +1529,7 @@ components:
     TrainingSession:
       type: object
       properties:
-        _id:
+        _id: 
           type: string
           example: 5099803df3f4948bd2f98548
         userId:
@@ -1555,12 +1540,12 @@ components:
           example: 5099803df3f4948bd2f9dja5
         date:
           type: string
-          format: date
+          format: date-time
           example: "2016-05-18T16:30:00Z"
         executions:
           type: array
           items:
-            $ref: "#/components/schemas/Execution"
+            $ref: '#/components/schemas/Execution'
     TrainingDay:
       type: object
       properties:
@@ -1574,7 +1559,7 @@ components:
           type: array
           items:
             type: object
-            properties:
+            properties: 
               exerciseId:
                 type: string
                 example: 5099803df3f4948bd2f98391
@@ -1615,15 +1600,15 @@ components:
     Body:
       type: object
       properties:
-        _id:
+        _id: 
           type: string
           example: 5099803df3f494ad2ad9dja5
-        userId:
+        userId: 
           type: string
           example: 5099803df3f494add2f9dja5
         date:
           type: string
-          format: date
+          format: date-time
           example: "2020-02-22T00:00:00Z"
         height:
           type: number
