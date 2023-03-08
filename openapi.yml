@@ -15,8 +15,12 @@ tags:
     description: monitoring information
   - name: Account
     description: /account Endpoint
+  - name: generatedTraingsplan
+    description: /generetedTraingsplan Endpoint
   - name: Body
     description: /body Endpoint
+  - name: Benchmarking
+    description: /benchmarking Endpoint
   - name: Exercises
     description: /exercises Endpoint
   - name: LastTraining
@@ -52,6 +56,44 @@ paths:
                   msg:
                     type: string
                     example: pong
+
+  /generatedTrainingsplan:
+    post:
+      tags:
+        - Generated Trainingsplan
+      summary: Generate new Trainingsplan for specific user
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                numberOfTraininssession:
+                  type: integer
+                trainingsStatus:
+                  type: string
+                  enum:
+                    - untrained
+                    - trained
+                trainingsType:
+                  type: string
+                  enum:
+                    - withMachines
+                    - withoutMachines
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                description: UserID/_id
+        "400":
+          description: Bad Request
+
   /account:
     get:
       tags:
@@ -253,7 +295,72 @@ paths:
                 description: bodyId/_id
         "401":
           description: Not Authorized
-
+  /benchmarking:
+    get:
+      tags:
+        - Benchmarking
+      summary: Get Benchmarking data
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: exercise_name
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    userId:
+                      type: string
+                    date:
+                      type: number
+                    exercise_amount:
+                      type: number
+                    exercise_name:
+                      type: string
+                    week_counter:
+                      type: number
+        "400":
+          description: Bad Request
+    post:
+      tags:
+        - Benchmarking
+      summary: Insert new Benchmarking data
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                userId:
+                  type: string
+                exercise_amount:
+                  type: number
+                exercise_name:
+                  type: string
+                week_counter:
+                  type: number
+      responses:
+        "201":
+          description: OK
+        "401":
+          description: Not Authorized
   /exercises:
     get:
       tags:
@@ -1296,6 +1403,13 @@ paths:
       tags:
         - TrainingSession
       summary: Add new Training session
+      parameters:
+        - in: query
+          name: trainingPlanId
+          required: false
+          schema:
+            type: string
+            example: 5d99802df3f4948bd2f9daa1
       requestBody:
         required: true
         content:
@@ -1353,6 +1467,12 @@ paths:
       responses:
         "201":
           description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "202":
+          description: created, but nextDay not updated
           content:
             application/json:
               schema:
