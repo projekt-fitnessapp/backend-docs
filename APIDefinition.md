@@ -7,51 +7,58 @@
 ### User
 
 - Account Data
+
 ```json
 {
   "_id": "string",
   "name": "string",
   "birthdate": "Date",
   "sex": "string",
-  "plans": "Trainingsplan[]",
+  "plans": "Trainingsplan[]"
 }
 ```
 
 - Body Definition
+
 ```json
 {
   "height": "string",
-  "weight": "string",
+  "weight": "string"
 }
 ```
 
 ### Pläne
 
 - Trainingsplan
+
 ```json
 {
   "name": "string",
   "split": "number",
   "trainingsTage": "Trainingstag[]",
-  "nextDay": "number",
+  "nextDay": "number"
 }
 ```
 
 - Trainingstag
+
 ```json
 {
   "_id": "string",
   "name": "string",
-  "uebungen": [{
-    "exercise": "exercise",
-    "sets": "int",
-    "reps": "int",
-  }],
-  "historyData": "Trainingseinheit",
+  "uebungen": [
+    {
+      "exercise": "exercise",
+      "sets": "int",
+      "reps": "int"
+    }
+  ],
+  "historyData": "Trainingseinheit"
 }
 ```
 
 - Trainingseinheit
+
 ```json
 {
   "trainingstagId": "string",
@@ -72,21 +79,22 @@
     }
   ]
 }
-
 ```
 
 - Übung
+
 ```json
 {
   "name": "string",
   "description": "string",
   "gifURL": "string",
   "muskel": "string/Enum",
-  "equipment": "string",
+  "equipment": "string"
 }
 ```
 
 - Last Week Trainings
+
 ```json
 {
   [{
@@ -95,4 +103,3 @@
   }],
 }
 ```
-

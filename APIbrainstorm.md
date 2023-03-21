@@ -7,6 +7,7 @@
 ### User
 
 - Account Data
+
 ```json
 {
   "_id": "string",
@@ -18,6 +19,7 @@
 ```
 
 - Body Definition
+
 ```json
 {
   "height": "string",
@@ -28,6 +30,7 @@
 ### Pläne
 
 - Trainingsplan
+
 ```json
 {
   "name": "string",
@@ -38,6 +41,7 @@
 ```
 
 - Trainingstag
+
 ```json
 {
   "_id": "string",
@@ -52,6 +56,7 @@
 ```
 
 - Trainingseinheit
+
 ```json
 {
   "trainingstagId": "string",
@@ -61,6 +66,7 @@
 ```
 
 - Übungseinheit
+
 ```json
 {
   "exerciseId": "string",
@@ -76,6 +82,7 @@
 ```
 
 - Übung
+
 ```json
 {
   "name": "string",
@@ -87,6 +94,7 @@
 ```
 
 - Last Week Trainings
+
 ```json
 {
   [{
@@ -95,4 +103,3 @@
   }],
 }
 ```
-
